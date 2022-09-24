@@ -3,11 +3,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react'
 import InputGroup from '../components/InputGroup';
+import { useAuthDispatch } from '../context/auth';
 
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState<any>({})
+
+    const dispatch = useAuthDispatch()
 
     let router = useRouter()
 
@@ -17,19 +20,14 @@ const Login = () => {
         try {
             const res = await Axios.post(
                 '/auth/login',
-                {
-                    password, 
-                    username, 
-                }, 
-                {
-                    withCredentials: true, 
-                }
+                { password, username }, 
+                { withCredentials: true }
             )
-            console.log('res', res)
+            dispatch("LOGIN", res.data?.user)
             router.push('/')
         } catch (error:any) {
             console.log('error', error)
-            setErrors(error?.response.data || {})
+            setErrors(error.data || {})
         }
         
     }
