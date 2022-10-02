@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/User';
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (_: Request, res: Response, next: NextFunction) => {
     try {
+        console.log('auth middleware', res.locals.user)
         const user: User | undefined = res.locals.user 
         
         if (!user) throw new Error(`Unauthenticated`)

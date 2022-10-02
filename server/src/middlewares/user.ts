@@ -5,9 +5,10 @@ import { User } from '../entities/User';
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.cookies.token
+
         if (!token) return next()
 
-        const { username }: any = jwt.verify(token, process.env.JWT_SECRET)
+        const { username }: any = jwt.verify(token, process.env.JWT_SECRET!)
 
         const user = await User.findOneBy({ username })
 
@@ -15,6 +16,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         // user 정보를 res.local.user 에 넣기
         res.locals.user = user
+
+        return next()
 
     } catch (error) {
         console.log(error)

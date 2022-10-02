@@ -5,6 +5,12 @@ import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
 import { User } from '../entities/User';
 import { mapError } from '../utils/helpers';
+import userMiddleware from '../middlewares/user';
+import authMiddleware from '../middlewares/auth';
+
+const me = async (_: Request, res: Response) => {
+    return res.json(res.locals.user)
+}
 
 const register = async (req: Request, res: Response) => {
     const { email, username, password } = req.body;
@@ -95,6 +101,7 @@ const login = async (req: Request, res: Response) => {
 }
 
 const router = Router()
+router.get('/me', userMiddleware, authMiddleware, me)
 router.post('/register', register)
 router.post('/login', login)
 
