@@ -5,7 +5,7 @@ import { User } from '../entities/User';
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.cookies.token
-
+        console.log('user middleware ', token)
         if (!token) return next()
 
         const { username }: any = jwt.verify(token, process.env.JWT_SECRET!)
