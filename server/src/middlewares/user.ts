@@ -4,8 +4,8 @@ import { User } from '../entities/User';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log('1) user middleware, req.cookies : ', req.cookies)
         const token = req.cookies.token
-        console.log('user middleware ', token)
         if (!token) return next()
 
         const { username }: any = jwt.verify(token, process.env.JWT_SECRET!)
@@ -21,6 +21,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     } catch (error) {
         console.log(error)
-        return res.status(400).json({ error: 'Something wrong in User' })
+        return res.status(400).json({ error: 'Something went wrong' })
     }
 }

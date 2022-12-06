@@ -3,7 +3,6 @@ import { User } from '../entities/User';
 
 export default async (_: Request, res: Response, next: NextFunction) => {
     try {
-        console.log('auth middleware', res.locals.user)
         const user: User | undefined = res.locals.user 
         
         if (!user) throw new Error(`Unauthenticated`)
@@ -12,6 +11,6 @@ export default async (_: Request, res: Response, next: NextFunction) => {
 
     } catch (error) {
         console.log(error)
-        return res.status(401).json({ error: 'Something wrong in Auth' })
+        return res.status(401).json({ error: 'Unathenticated' })
     }
 }
